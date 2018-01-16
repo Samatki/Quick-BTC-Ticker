@@ -1,0 +1,23 @@
+import time
+import os
+import requests
+
+def enterTicker():
+    print ('Enter Ticker...')
+    ticker = str(raw_input())[0:3].upper()
+    return ticker
+    
+def tickerFunc(ticker):
+    while True: 
+        # os.system('cls')
+        try:
+            request = requests.get("https://api.bitfinex.com/v2/tickers?symbols=t"+ticker+"USD")
+            if request.content == "[]":
+                ticker = enterTicker()
+            else:
+                print request.content[2:-2].split(",")[-4]
+        except:
+            pass                
+        time.sleep(5)
+
+tickerFunc(enterTicker())
