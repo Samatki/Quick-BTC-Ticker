@@ -1,0 +1,33 @@
+import time
+import os
+import requests
+
+coinDict =[("AVT","AVENTUS"),("BAT","BASIC ATTENTION TOKEN"),("BCH","BITCOIN CASH"),("BTC","BITCOIN"),("BTG","BTG"),("DASH","DASH"),("DATA","STREAMR"),("EDO","EIDOO"),("EOS","EOS"),("ETC","ETHEREUM CLASSIC"),("ETH","ETHEREUM"),("ETP","ETP"),("FUN","FUNFAIR"),("GNT","GOLEM"),("IOTA","IOTA"),("LTC","LITECOIN"),("MNA","DECENTRALAND"),("NEO","NEO"),("OMG","OMISEGO"),("QASH","QASH"),("QTUM","QTUM"),("SAN","SANTIMENT"),("SNT","STATUS"),("SPK","SPANKCHAIN"),("TNB","TIMES NEW BANK"),("XMR","MONERO"),("XRP","RIPPLE"),("YYW","YOYOW"),("ZEC","ZCASH"),("ZRX","0X")]
+
+
+def enterTicker():
+    print ('Enter Ticker or type "list" to get coin list...')
+    ticker = str(raw_input())[0:3].upper()
+    if ticker == "LIS":
+        os.system('cls')
+        print 'COIN LIST (TICKER - COIN)\n'
+        for item in coinDict:
+            print " ",item[0]+(5-len(item[0]))*" "+ '- ', item[1]
+        print ''    
+    return ticker
+    
+    
+def tickerFunc(ticker):
+    while True: 
+        # os.system('cls')
+        try:
+            request = requests.get("https://api.bitfinex.com/v2/tickers?symbols=t"+ticker+"USD")
+            if request.content == "[]":
+                ticker = enterTicker()
+            else:
+                print request.content[2:-2].split(",")[-4]
+        except:
+            pass
+        time.sleep(5)
+
+tickerFunc(enterTicker())
